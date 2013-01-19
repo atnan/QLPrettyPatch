@@ -12,10 +12,28 @@
 		D851421916AA68A60054BD8A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D851421816AA68A60054BD8A /* CoreServices.framework */; };
 		D851421B16AA68A60054BD8A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D851421A16AA68A60054BD8A /* CoreFoundation.framework */; };
 		D851422116AA68A60054BD8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D851421F16AA68A60054BD8A /* InfoPlist.strings */; };
-		D851422316AA68A60054BD8A /* GenerateThumbnailForURL.c in Sources */ = {isa = PBXBuildFile; fileRef = D851422216AA68A60054BD8A /* GenerateThumbnailForURL.c */; };
-		D851422516AA68A60054BD8A /* GeneratePreviewForURL.c in Sources */ = {isa = PBXBuildFile; fileRef = D851422416AA68A60054BD8A /* GeneratePreviewForURL.c */; };
+		D851422516AA68A60054BD8A /* QLPrettyPatch.m in Sources */ = {isa = PBXBuildFile; fileRef = D851422416AA68A60054BD8A /* QLPrettyPatch.m */; };
 		D851422716AA68A60054BD8A /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D851422616AA68A60054BD8A /* main.c */; };
+		D851423416AA6EBD0054BD8A /* diff.rb in Resources */ = {isa = PBXBuildFile; fileRef = D851423016AA6EBD0054BD8A /* diff.rb */; };
+		D851423516AA6EBD0054BD8A /* prettify.rb in Resources */ = {isa = PBXBuildFile; fileRef = D851423116AA6EBD0054BD8A /* prettify.rb */; };
+		D851423616AA6EBD0054BD8A /* PrettyPatch.rb in Resources */ = {isa = PBXBuildFile; fileRef = D851423216AA6EBD0054BD8A /* PrettyPatch.rb */; };
+		D851423916AA77210054BD8A /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D851423816AA77210054BD8A /* AppKit.framework */; };
+		D851423B16AA77270054BD8A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D851423A16AA77270054BD8A /* WebKit.framework */; };
+		D851423D16AA78CD0054BD8A /* QLPrettyPatch.qlgenerator in CopyFiles */ = {isa = PBXBuildFile; fileRef = D851421116AA68A60054BD8A /* QLPrettyPatch.qlgenerator */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D851423C16AA78B60054BD8A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "~/Library/QuickLook";
+			dstSubfolderSpec = 0;
+			files = (
+				D851423D16AA78CD0054BD8A /* QLPrettyPatch.qlgenerator in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D851421116AA68A60054BD8A /* QLPrettyPatch.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLPrettyPatch.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -25,10 +43,14 @@
 		D851421A16AA68A60054BD8A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		D851421E16AA68A60054BD8A /* QLPrettyPatch-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QLPrettyPatch-Info.plist"; sourceTree = "<group>"; };
 		D851422016AA68A60054BD8A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D851422216AA68A60054BD8A /* GenerateThumbnailForURL.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = GenerateThumbnailForURL.c; sourceTree = "<group>"; };
-		D851422416AA68A60054BD8A /* GeneratePreviewForURL.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = GeneratePreviewForURL.c; sourceTree = "<group>"; };
+		D851422416AA68A60054BD8A /* QLPrettyPatch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QLPrettyPatch.m; sourceTree = "<group>"; };
 		D851422616AA68A60054BD8A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D851422816AA68A60054BD8A /* QLPrettyPatch-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QLPrettyPatch-Prefix.pch"; sourceTree = "<group>"; };
+		D851423016AA6EBD0054BD8A /* diff.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = diff.rb; sourceTree = "<group>"; };
+		D851423116AA6EBD0054BD8A /* prettify.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = prettify.rb; sourceTree = "<group>"; };
+		D851423216AA6EBD0054BD8A /* PrettyPatch.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = PrettyPatch.rb; sourceTree = "<group>"; };
+		D851423816AA77210054BD8A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D851423A16AA77270054BD8A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +58,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D851423B16AA77270054BD8A /* WebKit.framework in Frameworks */,
+				D851423916AA77210054BD8A /* AppKit.framework in Frameworks */,
 				D851421516AA68A60054BD8A /* QuickLook.framework in Frameworks */,
 				D851421716AA68A60054BD8A /* ApplicationServices.framework in Frameworks */,
 				D851421916AA68A60054BD8A /* CoreServices.framework in Frameworks */,
@@ -49,6 +73,7 @@
 		D851420616AA68A60054BD8A = {
 			isa = PBXGroup;
 			children = (
+				D851422F16AA6EBD0054BD8A /* PrettyPatch */,
 				D851421C16AA68A60054BD8A /* QLPrettyPatch */,
 				D851421316AA68A60054BD8A /* Frameworks */,
 				D851421216AA68A60054BD8A /* Products */,
@@ -66,10 +91,12 @@
 		D851421316AA68A60054BD8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D851421416AA68A60054BD8A /* QuickLook.framework */,
+				D851423816AA77210054BD8A /* AppKit.framework */,
 				D851421616AA68A60054BD8A /* ApplicationServices.framework */,
-				D851421816AA68A60054BD8A /* CoreServices.framework */,
 				D851421A16AA68A60054BD8A /* CoreFoundation.framework */,
+				D851421816AA68A60054BD8A /* CoreServices.framework */,
+				D851421416AA68A60054BD8A /* QuickLook.framework */,
+				D851423A16AA77270054BD8A /* WebKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -77,8 +104,7 @@
 		D851421C16AA68A60054BD8A /* QLPrettyPatch */ = {
 			isa = PBXGroup;
 			children = (
-				D851422216AA68A60054BD8A /* GenerateThumbnailForURL.c */,
-				D851422416AA68A60054BD8A /* GeneratePreviewForURL.c */,
+				D851422416AA68A60054BD8A /* QLPrettyPatch.m */,
 				D851422616AA68A60054BD8A /* main.c */,
 				D851421D16AA68A60054BD8A /* Supporting Files */,
 			);
@@ -93,6 +119,16 @@
 				D851422816AA68A60054BD8A /* QLPrettyPatch-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D851422F16AA6EBD0054BD8A /* PrettyPatch */ = {
+			isa = PBXGroup;
+			children = (
+				D851423016AA6EBD0054BD8A /* diff.rb */,
+				D851423116AA6EBD0054BD8A /* prettify.rb */,
+				D851423216AA6EBD0054BD8A /* PrettyPatch.rb */,
+			);
+			path = PrettyPatch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,11 +148,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D851422B16AA68A60054BD8A /* Build configuration list for PBXNativeTarget "QLPrettyPatch" */;
 			buildPhases = (
+				D851422E16AA6A510054BD8A /* Checkout and/or update PrettyPatch.rb from WebKit SVN repository */,
 				D851420B16AA68A60054BD8A /* Sources */,
 				D851420C16AA68A60054BD8A /* Frameworks */,
 				D851420D16AA68A60054BD8A /* Headers */,
 				D851420E16AA68A60054BD8A /* Resources */,
 				D851420F16AA68A60054BD8A /* Rez */,
+				D851423C16AA78B60054BD8A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -159,6 +197,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D851422116AA68A60054BD8A /* InfoPlist.strings in Resources */,
+				D851423416AA6EBD0054BD8A /* diff.rb in Resources */,
+				D851423516AA6EBD0054BD8A /* prettify.rb in Resources */,
+				D851423616AA6EBD0054BD8A /* PrettyPatch.rb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,13 +215,31 @@
 		};
 /* End PBXRezBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		D851422E16AA6A510054BD8A /* Checkout and/or update PrettyPatch.rb from WebKit SVN repository */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Checkout and/or update PrettyPatch.rb from WebKit SVN repository";
+			outputPaths = (
+				"$(SRCROOT)/PrettyPatch/PrettyPatch.rb",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\nPRETTY_PATCH_CHECKOUT=\"$SRCROOT/PrettyPatch\"\n\nif [ ! -d \"$PRETTY_PATCH_CHECKOUT\" ]; then\n  cd \"$SRCROOT\"\n  svn checkout --non-interactive --trust-server-cert \"https://svn.webkit.org/repository/webkit/trunk/Websites/bugs.webkit.org/PrettyPatch\"\nelse\n  cd \"$SRCROOT/PrettyPatch\"\n  svn update --non-interactive --trust-server-cert\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D851420B16AA68A60054BD8A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D851422316AA68A60054BD8A /* GenerateThumbnailForURL.c in Sources */,
-				D851422516AA68A60054BD8A /* GeneratePreviewForURL.c in Sources */,
+				D851422516AA68A60054BD8A /* QLPrettyPatch.m in Sources */,
 				D851422716AA68A60054BD8A /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,6 +286,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -252,6 +312,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -301,6 +362,7 @@
 				D851422D16AA68A60054BD8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
