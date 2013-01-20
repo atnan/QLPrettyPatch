@@ -15,11 +15,11 @@
 		D851422516AA68A60054BD8A /* QLPrettyPatch.m in Sources */ = {isa = PBXBuildFile; fileRef = D851422416AA68A60054BD8A /* QLPrettyPatch.m */; };
 		D851422716AA68A60054BD8A /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D851422616AA68A60054BD8A /* main.c */; };
 		D851423416AA6EBD0054BD8A /* diff.rb in Resources */ = {isa = PBXBuildFile; fileRef = D851423016AA6EBD0054BD8A /* diff.rb */; };
-		D851423516AA6EBD0054BD8A /* prettify.rb in Resources */ = {isa = PBXBuildFile; fileRef = D851423116AA6EBD0054BD8A /* prettify.rb */; };
 		D851423616AA6EBD0054BD8A /* PrettyPatch.rb in Resources */ = {isa = PBXBuildFile; fileRef = D851423216AA6EBD0054BD8A /* PrettyPatch.rb */; };
 		D851423916AA77210054BD8A /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D851423816AA77210054BD8A /* AppKit.framework */; };
 		D851423B16AA77270054BD8A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D851423A16AA77270054BD8A /* WebKit.framework */; };
 		D851423D16AA78CD0054BD8A /* QLPrettyPatch.qlgenerator in CopyFiles */ = {isa = PBXBuildFile; fileRef = D851421116AA68A60054BD8A /* QLPrettyPatch.qlgenerator */; };
+		D851423F16ABACD70054BD8A /* Ruby.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D851423E16ABACD70054BD8A /* Ruby.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,10 +47,10 @@
 		D851422616AA68A60054BD8A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		D851422816AA68A60054BD8A /* QLPrettyPatch-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QLPrettyPatch-Prefix.pch"; sourceTree = "<group>"; };
 		D851423016AA6EBD0054BD8A /* diff.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = diff.rb; sourceTree = "<group>"; };
-		D851423116AA6EBD0054BD8A /* prettify.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = prettify.rb; sourceTree = "<group>"; };
 		D851423216AA6EBD0054BD8A /* PrettyPatch.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = PrettyPatch.rb; sourceTree = "<group>"; };
 		D851423816AA77210054BD8A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		D851423A16AA77270054BD8A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		D851423E16ABACD70054BD8A /* Ruby.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ruby.framework; path = System/Library/Frameworks/Ruby.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D851423F16ABACD70054BD8A /* Ruby.framework in Frameworks */,
 				D851423B16AA77270054BD8A /* WebKit.framework in Frameworks */,
 				D851423916AA77210054BD8A /* AppKit.framework in Frameworks */,
 				D851421516AA68A60054BD8A /* QuickLook.framework in Frameworks */,
@@ -91,6 +92,7 @@
 		D851421316AA68A60054BD8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D851423E16ABACD70054BD8A /* Ruby.framework */,
 				D851423816AA77210054BD8A /* AppKit.framework */,
 				D851421616AA68A60054BD8A /* ApplicationServices.framework */,
 				D851421A16AA68A60054BD8A /* CoreFoundation.framework */,
@@ -125,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				D851423016AA6EBD0054BD8A /* diff.rb */,
-				D851423116AA6EBD0054BD8A /* prettify.rb */,
 				D851423216AA6EBD0054BD8A /* PrettyPatch.rb */,
 			);
 			path = PrettyPatch;
@@ -198,7 +199,6 @@
 			files = (
 				D851422116AA68A60054BD8A /* InfoPlist.strings in Resources */,
 				D851423416AA6EBD0054BD8A /* diff.rb in Resources */,
-				D851423516AA6EBD0054BD8A /* prettify.rb in Resources */,
 				D851423616AA6EBD0054BD8A /* PrettyPatch.rb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

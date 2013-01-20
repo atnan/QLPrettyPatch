@@ -3,49 +3,48 @@
 #import <CoreServices/CoreServices.h>
 #import <Foundation/Foundation.h>
 #import <QuickLook/QuickLook.h>
+#import <Ruby/ruby.h>
 #import <WebKit/WebKit.h>
 
+#define QLMaxFSRepLength (1026)
+
 NSData * GeneratePrettyHTMLForPatchAtURL(CFURLRef patchURLRef, CFBundleRef generatorBundleRef) {
-    NSTask *task = [[[NSTask alloc] init] autorelease];
-    task.launchPath = [@"/usr/bin/ruby" stringByStandardizingPath];
+    RUBY_INIT_STACK
+    ruby_init();
+
+    ruby_init_loadpath();
 
     CFURLRef generatorBundleURLRef = CFBundleCopyBundleURL(generatorBundleRef);
     NSBundle *generatorBundle = [NSBundle bundleWithURL:(NSURL *)generatorBundleURLRef];
     CFRelease(generatorBundleURLRef);
-    
+
     NSString *bundleResourcePath = [generatorBundle resourcePath];
-    
-    NSString *prettyPatchLibraryPath = [NSString stringWithFormat:@"-I\"%@\"", bundleResourcePath];
+
+    char bundleResourcePathFSRep[QLMaxFSRepLength];
+    [bundleResourcePath getFileSystemRepresentation:bundleResourcePathFSRep maxLength:QLMaxFSRepLength];
+    ruby_incpush(bundleResourcePathFSRep);
+
     NSString *prettyPatchPath = [generatorBundle pathForResource:@"PrettyPatch" ofType:@"rb"];
-    NSString *patchPath = [(NSURL *)patchURLRef path];
 
-    task.arguments = @[ prettyPatchLibraryPath, prettyPatchPath, patchPath ];
+    char prettyPatchPathFSRep[QLMaxFSRepLength];
+    [prettyPatchPath getFileSystemRepresentation:prettyPatchPathFSRep maxLength:QLMaxFSRepLength];
+    rb_load_file(prettyPatchPathFSRep);
 
-    NSLog(@"task.launchPath = %@", task.launchPath);
-    NSLog(@"task.arguments = %@", task.arguments);
+    ruby_exec(); // or perhaps ruby_run()?
 
-    char cpath[1026];
-    [task.launchPath getFileSystemRepresentation:cpath maxLength:1026];
-    int pathIsExecutable = access("/usr/bin/ruby", X_OK);
+    NSString *patchString = [NSString stringWithContentsOfURL:(NSURL *)patchURLRef encoding:NSUTF8StringEncoding error:NULL];
+    const char * patchCString = [patchString cStringUsingEncoding:NSUTF8StringEncoding];
 
-    uid_t uid = getuid();
-    uid_t euid = geteuid();
-    NSLog(@"uid = %d, euid = %d, pathIsExecutable = %d, errno = %d", uid, euid, pathIsExecutable, errno);
+    VALUE rb_PrettyPatchModule = rb_const_get(rb_cObject, rb_intern("PrettyPatch"));
+    VALUE rb_patchString = rb_str_new2(patchCString);
+    VALUE rb_patchPrettyString = rb_funcall(rb_PrettyPatchModule, rb_intern("prettify"), 1, rb_patchString);
 
-    NSPipe *pipe = [NSPipe pipe];
-    task.standardOutput = pipe;
+    char * patchPrettyCString = StringValueCStr(rb_patchPrettyString);
+    NSString *patchPrettyString = [NSString stringWithCString:patchPrettyCString encoding:NSUTF8StringEncoding];
 
-    @try {
-        [task launch];
-        
-    } @catch (NSException *exception) {
-        NSLog(@"Failed to launch task with exception: %@", exception);
-        return nil;
-    }
+    ruby_finalize();
 
-    [task waitUntilExit];
-
-    return [[pipe fileHandleForReading] readDataToEndOfFile];
+    return [patchPrettyString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options) {

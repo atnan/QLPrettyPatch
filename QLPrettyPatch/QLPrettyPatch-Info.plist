@@ -50,11 +50,11 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2013 Nathan de Vries. All rights reserved.</string>
 	<key>QLNeedsToBeRunInMainThread</key>
-	<false/>
+	<true/>
 	<key>QLPreviewHeight</key>
-	<real>600</real>
+	<integer>1024</integer>
 	<key>QLPreviewWidth</key>
-	<real>800</real>
+	<integer>768</integer>
 	<key>QLSupportsConcurrentRequests</key>
 	<false/>
 	<key>QLThumbnailMinimumSize</key>
