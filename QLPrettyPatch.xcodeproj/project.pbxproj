@@ -149,12 +149,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D851422B16AA68A60054BD8A /* Build configuration list for PBXNativeTarget "QLPrettyPatch" */;
 			buildPhases = (
-				D851422E16AA6A510054BD8A /* Checkout and/or update PrettyPatch.rb from WebKit SVN repository */,
+				D851422E16AA6A510054BD8A /* Download the latest version of PrettyPatch from the WebKit SVN repository */,
 				D851420B16AA68A60054BD8A /* Sources */,
 				D851420C16AA68A60054BD8A /* Frameworks */,
 				D851420D16AA68A60054BD8A /* Headers */,
 				D851420E16AA68A60054BD8A /* Resources */,
-				D851420F16AA68A60054BD8A /* Rez */,
 				D851423C16AA78B60054BD8A /* CopyFiles */,
 			);
 			buildRules = (
@@ -172,7 +171,7 @@
 		D851420716AA68A60054BD8A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Nathan de Vries";
 			};
 			buildConfigurationList = D851420A16AA68A60054BD8A /* Build configuration list for PBXProject "QLPrettyPatch" */;
@@ -205,31 +204,21 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXRezBuildPhase section */
-		D851420F16AA68A60054BD8A /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
-		D851422E16AA6A510054BD8A /* Checkout and/or update PrettyPatch.rb from WebKit SVN repository */ = {
+		D851422E16AA6A510054BD8A /* Download the latest version of PrettyPatch from the WebKit SVN repository */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Checkout and/or update PrettyPatch.rb from WebKit SVN repository";
+			name = "Download the latest version of PrettyPatch from the WebKit SVN repository";
 			outputPaths = (
 				"$(SRCROOT)/PrettyPatch/PrettyPatch.rb",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nPRETTY_PATCH_CHECKOUT=\"$SRCROOT/PrettyPatch\"\n\nif [ ! -d \"$PRETTY_PATCH_CHECKOUT\" ]; then\n  cd \"$SRCROOT\"\n  svn checkout --non-interactive --trust-server-cert \"https://svn.webkit.org/repository/webkit/trunk/Websites/bugs.webkit.org/PrettyPatch\"\nelse\n  cd \"$SRCROOT/PrettyPatch\"\n  svn update --non-interactive --trust-server-cert\nfi\n";
+			shellScript = "#!/bin/sh\n\nPRETTY_PATCH_CHECKOUT=\"$SRCROOT/PrettyPatch\"\nsvn export --force \"https://svn.webkit.org/repository/webkit/trunk/Websites/bugs.webkit.org/PrettyPatch\" \"$PRETTY_PATCH_CHECKOUT\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -262,7 +251,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -295,7 +283,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;

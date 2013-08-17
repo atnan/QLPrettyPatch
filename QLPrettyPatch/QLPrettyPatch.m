@@ -1,14 +1,19 @@
-#import <AppKit/AppKit.h>
-#import <CoreFoundation/CoreFoundation.h>
-#import <CoreServices/CoreServices.h>
-#import <Foundation/Foundation.h>
+//
+//  QLPrettyPatch.m
+//  QLPrettyPatch
+//
+//  Created by Nathan de Vries on 1/1/2013.
+//  Copyright 2013 Nathan de Vries. All rights reserved.
+//
+
 #import <QuickLook/QuickLook.h>
 #import <Ruby/ruby.h>
 #import <WebKit/WebKit.h>
 
-#define QLMaxFSRepLength (1026)
+static const NSUInteger kMaxFSRepresentationLength = 1026;
 
-NSData * GeneratePrettyHTMLForPatchAtURL(CFURLRef patchURLRef, CFBundleRef generatorBundleRef) {
+NSData *GeneratePrettyHTMLForPatchAtURL(CFURLRef patchURLRef, CFBundleRef generatorBundleRef)
+{
     RUBY_INIT_STACK
     ruby_init();
 
@@ -20,17 +25,17 @@ NSData * GeneratePrettyHTMLForPatchAtURL(CFURLRef patchURLRef, CFBundleRef gener
 
     NSString *bundleResourcePath = [generatorBundle resourcePath];
 
-    char bundleResourcePathFSRep[QLMaxFSRepLength];
-    [bundleResourcePath getFileSystemRepresentation:bundleResourcePathFSRep maxLength:QLMaxFSRepLength];
+    char bundleResourcePathFSRep[kMaxFSRepresentationLength];
+    [bundleResourcePath getFileSystemRepresentation:bundleResourcePathFSRep maxLength:kMaxFSRepresentationLength];
     ruby_incpush(bundleResourcePathFSRep);
 
     NSString *prettyPatchPath = [generatorBundle pathForResource:@"PrettyPatch" ofType:@"rb"];
 
-    char prettyPatchPathFSRep[QLMaxFSRepLength];
-    [prettyPatchPath getFileSystemRepresentation:prettyPatchPathFSRep maxLength:QLMaxFSRepLength];
+    char prettyPatchPathFSRep[kMaxFSRepresentationLength];
+    [prettyPatchPath getFileSystemRepresentation:prettyPatchPathFSRep maxLength:kMaxFSRepresentationLength];
     rb_load_file(prettyPatchPathFSRep);
 
-    ruby_exec(); // or perhaps ruby_run()?
+    int rb_execStatus = ruby_exec(); // or perhaps ruby_run()?
 
     NSString *patchString = [NSString stringWithContentsOfURL:(NSURL *)patchURLRef encoding:NSUTF8StringEncoding error:NULL];
     const char * patchCString = [patchString cStringUsingEncoding:NSUTF8StringEncoding];
@@ -42,12 +47,14 @@ NSData * GeneratePrettyHTMLForPatchAtURL(CFURLRef patchURLRef, CFBundleRef gener
     char * patchPrettyCString = StringValueCStr(rb_patchPrettyString);
     NSString *patchPrettyString = [NSString stringWithCString:patchPrettyCString encoding:NSUTF8StringEncoding];
 
+    ruby_cleanup(rb_execStatus);
     ruby_finalize();
 
     return [patchPrettyString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options) {
+OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options)
+{
     NSData *prettyPatchData = GeneratePrettyHTMLForPatchAtURL(url, QLPreviewRequestGetGeneratorBundle(preview));
     if (prettyPatchData) {
         QLPreviewRequestSetDataRepresentation(preview, (CFDataRef)prettyPatchData, kUTTypeHTML, (CFDictionaryRef)@{});
@@ -67,10 +74,7 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
     WebView* webView = [[[WebView alloc] initWithFrame:viewRect] autorelease];
     [webView scaleUnitSquareToSize:scaleSize];
     [[[webView mainFrame] frameView] setAllowsScrolling:NO];
-    [[webView mainFrame] loadData:prettyPatchData
-                         MIMEType:@"text/html"
-                 textEncodingName:@"utf-8"
-                          baseURL:nil];
+    [[webView mainFrame] loadData:prettyPatchData MIMEType:@"text/html" textEncodingName:@"utf-8" baseURL:nil];
 
     while ([webView isLoading]) {
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true);
@@ -81,11 +85,9 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
     CGContextRef context = QLThumbnailRequestCreateContext(thumbnail, thumbSize, false, NULL);
 
     if (context) {
-        NSGraphicsContext* nsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:(void *)context
-                                                                                  flipped:[webView isFlipped]];
+        NSGraphicsContext* nsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:(void *)context flipped:[webView isFlipped]];
 
-        [webView displayRectIgnoringOpacity:[webView bounds]
-                                  inContext:nsContext];
+        [webView displayRectIgnoringOpacity:[webView bounds] inContext:nsContext];
 
         QLThumbnailRequestFlushContext(thumbnail, context);
         CFRelease(context);
