@@ -16,7 +16,6 @@ NSData *GeneratePrettyHTMLForPatchAtURL(CFURLRef patchURLRef, CFBundleRef genera
 {
     RUBY_INIT_STACK
     ruby_init();
-
     ruby_init_loadpath();
 
     CFURLRef generatorBundleURLRef = CFBundleCopyBundleURL(generatorBundleRef);
@@ -35,9 +34,22 @@ NSData *GeneratePrettyHTMLForPatchAtURL(CFURLRef patchURLRef, CFBundleRef genera
     [prettyPatchPath getFileSystemRepresentation:prettyPatchPathFSRep maxLength:kMaxFSRepresentationLength];
     rb_load_file(prettyPatchPathFSRep);
 
-    int rb_execStatus = ruby_exec(); // or perhaps ruby_run()?
+    int rb_execStatus = ruby_exec();
+    NSLog(@"ruby_exec returned %d", rb_execStatus);
 
-    NSString *patchString = [NSString stringWithContentsOfURL:(NSURL *)patchURLRef encoding:NSUTF8StringEncoding error:NULL];
+    void (^cleanup_and_finalize_ruby)(void) = ^{
+        ruby_cleanup(rb_execStatus);
+        ruby_finalize();
+    };
+
+    NSError *error = nil;
+    NSString *patchString = [NSString stringWithContentsOfURL:(NSURL *)patchURLRef encoding:NSUTF8StringEncoding error:&error];
+    if (!patchString) {
+        NSLog(@"Failed to read patch file at URL '%@' (%@).", (NSURL *)patchURLRef, [error localizedDescription]);
+        cleanup_and_finalize_ruby();
+        return nil;
+    }
+
     const char * patchCString = [patchString cStringUsingEncoding:NSUTF8StringEncoding];
 
     VALUE rb_PrettyPatchModule = rb_const_get(rb_cObject, rb_intern("PrettyPatch"));
@@ -47,8 +59,7 @@ NSData *GeneratePrettyHTMLForPatchAtURL(CFURLRef patchURLRef, CFBundleRef genera
     char * patchPrettyCString = StringValueCStr(rb_patchPrettyString);
     NSString *patchPrettyString = [NSString stringWithCString:patchPrettyCString encoding:NSUTF8StringEncoding];
 
-    ruby_cleanup(rb_execStatus);
-    ruby_finalize();
+    cleanup_and_finalize_ruby();
 
     return [patchPrettyString dataUsingEncoding:NSUTF8StringEncoding];
 }
@@ -58,8 +69,10 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
     NSData *prettyPatchData = GeneratePrettyHTMLForPatchAtURL(url, QLPreviewRequestGetGeneratorBundle(preview));
     if (prettyPatchData) {
         QLPreviewRequestSetDataRepresentation(preview, (CFDataRef)prettyPatchData, kUTTypeHTML, (CFDictionaryRef)@{});
+        return kQLReturnNoError;
+    } else {
+        return -1;
     }
-    return noErr;
 }
 
 OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize) {
@@ -91,9 +104,12 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
 
         QLThumbnailRequestFlushContext(thumbnail, context);
         CFRelease(context);
-    }
 
-    return noErr;
+        return kQLReturnNoError;
+
+    } else {
+        return -1;
+    }
 }
 
 void CancelPreviewGeneration(void *thisInterface, QLPreviewRequestRef preview) { /* not supported */ }
