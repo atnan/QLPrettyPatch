@@ -7,15 +7,11 @@ Once installed, you can select patch file attachments in an email or patch files
 
 From the Terminal, you can also run `qlmanage -p /path/to/my.patch` to open the patch in a QuickLook preview pane.
 
-Example
--------
-
 ![Example patch file QuickLook preview](https://github.com/atnan/QLPrettyPatch/raw/master/Screenshot.png)
 
-Installation
-------------
+### Installation
 
-There are two options:
+There are two options for installation:
 
 1. To install a pre-built copy, head to the [Releases page](https://github.com/atnan/QLPrettyPatch/releases) and download the latest `QLPrettyPatch.qlgenerator.zip` file. Unzip the archive, and copy `QLPrettyPatch.qlgenerator` to `~/Library/QuickLook/`.
 2. To build your own copy, clone the project, open `QLPrettyPatch.xcproj` in Xcode and build the `Install` target. The build product will automatically be copied to `~/Library/QuickLook/QLPrettyPatch.qlgeneator`.
