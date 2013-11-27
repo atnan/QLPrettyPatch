@@ -7,6 +7,11 @@ Once installed, you can select patch file attachments in an email or patch files
 
 From the Terminal, you can also run `qlmanage -p /path/to/my.patch` to open the patch in a QuickLook preview pane.
 
+Example
+-------
+
+![Example patch file QuickLook preview](https://github.com/atnan/QLPrettyPatch/raw/master/Screenshot.png)
+
 Installation
 ------------
 
